@@ -6,6 +6,8 @@
 #ifndef MARBLE_SERVERLAYOUT_H
 #define MARBLE_SERVERLAYOUT_H
 
+#include "marble_export.h"
+
 class QUrl;
 class QString;
 
@@ -14,7 +16,7 @@ namespace Marble
 class GeoSceneTileDataset;
 class TileId;
 
-class ServerLayout
+class MARBLE_EXPORT ServerLayout
 {
 public:
     explicit ServerLayout( GeoSceneTileDataset *textureLayer );
