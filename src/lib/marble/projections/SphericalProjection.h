@@ -29,7 +29,7 @@ class SphericalProjectionPrivate;
  * @short A class to implement the spherical projection used by the "Globe" view.
  */
 
-class SphericalProjection : public AzimuthalProjection
+class MARBLE_EXPORT SphericalProjection : public AzimuthalProjection
 {
     // Not a QObject so far because we don't need to send signals.
  public:

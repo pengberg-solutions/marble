@@ -26,7 +26,7 @@ namespace Marble
  * @short A class to implement the Mercator projection.
  */
 
-class MercatorProjection : public CylindricalProjection
+class MARBLE_EXPORT MercatorProjection : public CylindricalProjection
 {
     // Not a QObject so far because we don't need to send signals.
  public:

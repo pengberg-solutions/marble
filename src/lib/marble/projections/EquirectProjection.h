@@ -27,7 +27,7 @@ namespace Marble
  * @short A class to implement the Equirectangular projection used by the "Flat Map" view.
  */
 
-class EquirectProjection : public CylindricalProjection
+class MARBLE_EXPORT EquirectProjection : public CylindricalProjection
 {
     // Not a QObject so far because we don't need to send signals.
  public:
