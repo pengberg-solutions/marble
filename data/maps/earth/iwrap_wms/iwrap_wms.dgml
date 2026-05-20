@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgml xmlns="http://edu.kde.org/marble/dgml/2.0">
+    <document>
+
+        <head>
+            <name>iwrap_wms</name>
+            <target>earth</target>
+            <theme>iwrap_wms</theme>
+            <icon pixmap="iwrap_wms-preview.png"/>
+            <visible>true</visible>
+            <description><![CDATA[<p>A <i>global roadmap</i> created by the OpenStreetMap (OSM) project.<p>OSM is an open community which creates free editable maps. The OSM data was rendered using Mapnik.]]></description>
+            <zoom>
+                <minimum>   900  </minimum>
+                <maximum>  4000  </maximum>
+                <discrete> false </discrete>
+            </zoom>
+        </head>
+
+        <map bgcolor="#000000">
+            <canvas/>
+            <target/>
+            <layer name="iwrap_wms" backend="texture" >
+                <!-- OpenStreetMap mapnik rendered tiles expire after seven days
+                     or 604800 seconds Equirectangular -->
+                <texture name="iwrap_wms_data" expire="604800" >
+                    <sourcedir format="PNG"> earth/iwrap_wms </sourcedir>
+                    <tileSize width="256" height="256" />
+                    <storageLayout levelZeroColumns="1" levelZeroRows="1" maximumTileLevel="19" mode="Custom" />
+                    <projection name="Equirectangular" />
+                    <downloadUrl protocol="http" host="kortforsyningen.kms.dk" path="/" />
+                </texture>
+            </layer>
+            <layer name="standardplaces" backend="geodata">
+               <geodata name="cityplacemarks">
+                    <sourcefile format="KML">cityplacemarks.kml</sourcefile>
+                    <pick>placemark</pick>
+                </geodata>
+                <geodata name="baseplacemarks">
+                    <sourcefile format="KML">baseplacemarks.kml</sourcefile>
+                    <pick>placemark</pick>
+                </geodata>
+                <geodata name="elevplacemarks">
+                    <sourcefile format="KML">elevplacemarks.kml</sourcefile>
+                    <pick>placemark</pick>
+                </geodata>
+                <geodata name="otherplacemarks">
+                    <sourcefile
+                    format="KML">otherplacemarks.kml</sourcefile>
+                    <pick>placemark</pick>
+                </geodata>
+                <geodata name="boundaryplacemarks">
+                    <sourcefile format="KML">boundaryplacemarks</sourcefile>
+                    <pick>placemark</pick>
+                </geodata>
+            </layer>            
+        </map>
+        <settings>
+            <property name="coordinate-grid">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="overviewmap">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="compass">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="scalebar">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <group name="Places">
+                <property name="places">
+                    <value>false</value>
+                    <available>false</available>
+                </property>
+                <property name="otherplaces">
+                    <value>false</value>
+                    <available>false</available>
+                </property>
+            </group>
+        </settings>
+        <legend>
+        </legend>
+    </document>
+</dgml>
