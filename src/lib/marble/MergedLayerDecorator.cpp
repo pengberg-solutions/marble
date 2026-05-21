@@ -305,7 +305,20 @@ StackedTile *MergedLayerDecorator::loadTile( const TileId &stackedTileId )
         }
 
         const GeoSceneTextureTileDataset *const textureLayer = static_cast<const GeoSceneTextureTileDataset *>( layer );
-        const QImage tileImage = d->m_tileLoader->loadTileImage( textureLayer, tileId, DownloadBrowse );
+        QImage tileImage = d->m_tileLoader->loadTileImage( textureLayer, tileId, DownloadBrowse );
+
+        // Per-texture opacity: pre-multiply the tile's alpha channel by
+        // the layer's opacity value (0.0 = transparent, 1.0 = opaque).
+        // No-op for layers using the default opacity of 1.0.
+        if ( layer->opacity() < 1.0 ) {
+            QImage withOpacity = tileImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            QPainter p(&withOpacity);
+            p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            p.fillRect(withOpacity.rect(),
+                       QColor(0, 0, 0, qRound(255.0 * layer->opacity())));
+            p.end();
+            tileImage = withOpacity;
+        }
 
         QSharedPointer<TextureTile> tile( new TextureTile( tileId, tileImage, blending ) );
         tiles.append( tile );
