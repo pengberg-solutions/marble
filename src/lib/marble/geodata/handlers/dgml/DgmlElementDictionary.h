@@ -46,6 +46,7 @@ namespace dgml
     extern  const char dgmlTag_Maximum[];
     extern  const char dgmlTag_Minimum[];
     extern  const char dgmlTag_Name[];
+    extern  const char dgmlTag_Opacity[];
     extern  const char dgmlTag_Palette[];
     extern  const char dgmlTag_Pen[];
     extern  const char dgmlTag_Projection[];

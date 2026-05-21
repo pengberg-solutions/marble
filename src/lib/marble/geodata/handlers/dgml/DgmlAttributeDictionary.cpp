@@ -58,6 +58,7 @@ const char dgmlAttr_tileLevels[]       = "tileLevels";
 const char dgmlAttr_type[]             = "type";
 const char dgmlAttr_usage[]            = "usage";
 const char dgmlAttr_user[]             = "user";
+const char dgmlAttr_value[]            = "value";
 const char dgmlAttr_width[]            = "width";
 }
 }

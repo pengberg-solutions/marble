@@ -126,6 +126,7 @@ SET ( geodata_handlers_dgml_SRCS
         geodata/handlers/dgml/DgmlAuxillaryDictionary.cpp
         geodata/handlers/dgml/DgmlGeodataTagHandler.cpp
         geodata/handlers/dgml/DgmlBlendingTagHandler.h
+        geodata/handlers/dgml/DgmlOpacityTagHandler.h
         geodata/handlers/dgml/DgmlSourceDirTagHandler.cpp
         geodata/handlers/dgml/DgmlValueTagHandler.h
         geodata/handlers/dgml/DgmlMapTagHandler.h
@@ -156,6 +157,7 @@ SET ( geodata_handlers_dgml_SRCS
         geodata/handlers/dgml/DgmlTextureTagHandler.h
         geodata/handlers/dgml/DgmlDownloadUrlTagHandler.cpp
         geodata/handlers/dgml/DgmlBlendingTagHandler.cpp
+        geodata/handlers/dgml/DgmlOpacityTagHandler.cpp
         geodata/handlers/dgml/DgmlBrushTagHandler.h
         geodata/handlers/dgml/DgmlZoomTagHandler.h
         geodata/handlers/dgml/DgmlVectorTagHandler.cpp

@@ -60,6 +60,7 @@ namespace dgml
     extern const char dgmlAttr_type[];
     extern const char dgmlAttr_usage[];
     extern const char dgmlAttr_user[];
+    extern const char dgmlAttr_value[];
     extern const char dgmlAttr_width[];
 }
 }

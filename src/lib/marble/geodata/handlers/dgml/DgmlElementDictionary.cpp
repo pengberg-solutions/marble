@@ -43,6 +43,7 @@ const char dgmlTag_Map[] = "map";
 const char dgmlTag_Maximum[] = "maximum";
 const char dgmlTag_Minimum[] = "minimum";
 const char dgmlTag_Name[] = "name";
+const char dgmlTag_Opacity[] = "opacity";
 const char dgmlTag_Palette[] = "palette";
 const char dgmlTag_Pen[] = "pen";
 const char dgmlTag_Projection[] = "projection";
