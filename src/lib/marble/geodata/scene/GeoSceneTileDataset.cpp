@@ -35,6 +35,7 @@ GeoSceneTileDataset::GeoSceneTileDataset( const QString& name )
       m_maximumTileLevel( -1 ),
       m_tileProjection(new GeoSceneEquirectTileProjection()),
       m_blending(),
+      m_opacity( 1.0 ),
       m_downloadUrls(),
       m_nextUrl( m_downloadUrls.constEnd() )
 {

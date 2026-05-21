@@ -93,6 +93,15 @@ class GEODATA_EXPORT GeoSceneTileDataset : public GeoSceneAbstractDataset
     void setBlending( const QString &name );
 
     /**
+     * @brief Per-texture opacity multiplier (0.0 = fully transparent,
+     * 1.0 = fully opaque, default 1.0). Applied during tile compositing
+     * in MergedLayerDecorator. Allows runtime-tunable per-layer alpha
+     * without modifying tile image data at fetch time.
+     */
+    qreal opacity() const;
+    void setOpacity( qreal opacity );
+
+    /**
      * Creates a download URL for the given tile id.
      *
      * It implements the round robin for the tile servers.
@@ -125,6 +134,7 @@ class GEODATA_EXPORT GeoSceneTileDataset : public GeoSceneAbstractDataset
     GeoDataLatLonBox m_latLonBox;
     GeoSceneAbstractTileProjection *m_tileProjection;
     QString m_blending;
+    qreal m_opacity;
 
     /// List of Urls which are used in a round robin fashion
     QVector<QUrl> m_downloadUrls;
@@ -147,6 +157,16 @@ inline QString GeoSceneTileDataset::blending() const
 inline void GeoSceneTileDataset::setBlending( const QString &name )
 {
     m_blending = name;
+}
+
+inline qreal GeoSceneTileDataset::opacity() const
+{
+    return m_opacity;
+}
+
+inline void GeoSceneTileDataset::setOpacity( qreal opacity )
+{
+    m_opacity = qBound(0.0, opacity, 1.0);
 }
 
 }
