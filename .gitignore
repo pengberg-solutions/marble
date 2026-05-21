@@ -9,3 +9,12 @@ enpo
 .cache
 .idea
 /cmake-build*
+
+# IWRAP-side dev tooling and Visual Studio artifacts
+*.bat
+*.cmd
+*.vsidx
+*.suo
+*.user
+vc17-x64-qt6/
+vc17-x64-qt6_8_7/
