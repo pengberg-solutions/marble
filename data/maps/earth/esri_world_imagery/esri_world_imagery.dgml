@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgml xmlns="http://edu.kde.org/marble/dgml/2.0">
+    <document>
+
+        <head>
+            <name>Esri World Imagery</name>
+            <target>earth</target>
+            <theme>esriworldimagery</theme>
+            <icon pixmap="esriworldimagery-preview.png"/>
+            <visible>true</visible>
+            <description><![CDATA[
+                <p>Global satellite/aerial imagery from Esri World Imagery.</p>
+                <p>This basemap contains imagery without political place labels, which can be useful as a neutral background map.</p>
+            ]]></description>
+            <zoom>
+                <minimum>   900  </minimum>
+                <maximum>  4000  </maximum>
+                <discrete> false </discrete>
+            </zoom>
+        </head>
+
+        <map bgcolor="#000000">
+            <canvas/>
+            <target/>
+
+            <layer name="esriworldimagery" backend="texture">
+                <!--
+                    Esri World Imagery is a Web Mercator tiled service.
+
+                    Remote URL order:
+                        /tile/{z}/{y}/{x}
+
+                    This is different from OpenStreetMap:
+                        /{z}/{x}/{y}.png
+
+                    Therefore this DGML uses mode="Custom" and requires Marble to support
+                    GeoSceneTexture::Custom both for cache file naming and URL placeholder
+                    replacement.
+                -->
+                <texture name="esri_world_imagery_data" expire="2592000">
+                    <sourcedir format="JPG"> earth/esri_world_imagery </sourcedir>
+                    <tileSize width="256" height="256"/>
+                    <storageLayout levelZeroColumns="1"
+                                   levelZeroRows="1"
+                                   maximumTileLevel="19"
+                                   mode="Custom"/>
+                    <projection name="Mercator"/>
+                    <downloadUrl protocol="https"
+                                 host="server.arcgisonline.com"
+                                 path="/ArcGIS/rest/services/World_Imagery/MapServer/tile/{zoomLevel}/{y}/{x}"/>
+                    <downloadPolicy usage="Browse" maximumConnections="8"/>
+                    <downloadPolicy usage="Bulk" maximumConnections="2"/>
+                </texture>
+            </layer>
+        </map>
+
+        <settings>
+            <property name="coordinate-grid">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="overviewmap">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="compass">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="scalebar">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <group name="Places">
+                <property name="places">
+                    <value>false</value>
+                    <available>false</available>
+                </property>
+                <property name="otherplaces">
+                    <value>false</value>
+                    <available>false</available>
+                </property>
+            </group>
+        </settings>
+
+        <legend>
+            <section name="coordinate-grid" checkable="true" connect="coordinate-grid" spacing="12">
+                <heading>Coordinate Grid</heading>
+            </section>
+        </legend>
+
+    </document>
+</dgml>
