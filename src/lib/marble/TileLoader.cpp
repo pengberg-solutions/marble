@@ -318,6 +318,7 @@ GeoDataDocument *TileLoader::openVectorFile(const QString &fileName) const
     for( const ParseRunnerPlugin *plugin: plugins ) {
         QStringList const extensions = plugin->fileExtensions();
         if ( extensions.contains( suffix ) || extensions.contains( completeSuffix ) ) {
+            mDebug() << QString("Open vector tile %1: %2").arg(fileName, completeSuffix);
             ParsingRunner* runner = plugin->newRunner();
             QString error;
             GeoDataDocument* document = runner->parseFile(fileName, UserDocument, error);
