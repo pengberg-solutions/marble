@@ -16,6 +16,8 @@
 #include "GeoDocument.h"
 #include <marble_export.h>
 
+#include <memory>
+
 class QXmlStreamAttributes;
 
 namespace Marble
@@ -226,7 +228,7 @@ private:
 	/**
 	 * Store the insternal instance of the hash-table functions container.
 	 */
-	OsmPlacemarkDataHashRef* m_href = nullptr;
+    std::shared_ptr<OsmPlacemarkDataHashRef> m_href;
 };
 
 /**
