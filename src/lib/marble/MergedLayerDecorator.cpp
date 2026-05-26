@@ -375,7 +375,41 @@ StackedTile *MergedLayerDecorator::updateTile( const StackedTile &stackedTile, c
         if ( tiles[i]->id() == tileId ) {
             const Blending *blending = tiles[i]->blending();
 
-            tiles[i] = QSharedPointer<TextureTile>( new TextureTile( tileId, tileImage, blending ) );
+            // Layer lookup: match this tile's source layer by
+            // qHash(sourceDir) — the same identifier the TileId uses
+            // (TileId.cpp:17-18 constructs m_mapThemeIdHash via
+            // qHash(mapThemeId), and loadTile passes layer->sourceDir()
+            // as that string).
+            const GeoSceneTextureTileDataset *matchingLayer = nullptr;
+            for ( const GeoSceneTextureTileDataset *candidate : d->m_textureLayers ) {
+                // TileId::m_mapThemeIdHash is uint (32-bit); Qt6's qHash(QString)
+                // returns size_t (64-bit). Truncate to uint to match the stored
+                // value — otherwise the high 32 bits of the LHS make the
+                // comparison fail and matchingLayer stays null.
+                if ( static_cast<uint>(qHash(candidate->sourceDir())) == tileId.mapThemeIdHash() ) {
+                    matchingLayer = candidate;
+                    break;
+                }
+            }
+
+            // Per-texture opacity hook: mirrors the one in loadTile so
+            // tiles arriving via the network-completion signal path
+            // (StackedTileLoader::updateTile → here) get the same
+            // alpha scaling as tiles loaded synchronously via loadTile.
+            // Without this, opacity changes are invisible whenever the
+            // dominant pan/zoom-driven tile arrivals route through here.
+            QImage adjustedImage = tileImage;
+            if ( matchingLayer && matchingLayer->opacity() < 1.0 ) {
+                QImage withOpacity = adjustedImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                QPainter p(&withOpacity);
+                p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+                p.fillRect(withOpacity.rect(),
+                           QColor(0, 0, 0, qRound(255.0 * matchingLayer->opacity())));
+                p.end();
+                adjustedImage = withOpacity;
+            }
+
+            tiles[i] = QSharedPointer<TextureTile>( new TextureTile( tileId, adjustedImage, blending ) );
         }
     }
 
