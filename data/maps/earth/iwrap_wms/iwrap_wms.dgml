@@ -26,7 +26,7 @@
                     <sourcedir format="PNG"> earth/iwrap_wms </sourcedir>
                     <tileSize width="256" height="256" />
                     <storageLayout levelZeroColumns="1" levelZeroRows="1" maximumTileLevel="19" mode="Custom" />
-                    <projection name="Equirectangular" />
+                    <projection name="Mercator" />
                     <downloadUrl protocol="http" host="kortforsyningen.kms.dk" path="/" />
                 </texture>
             </layer>
