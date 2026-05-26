@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SPDX-License-Identifier: LGPL-2.1-or-later
+    Composite theme: OSM mapnik basemap + IWRAP WMS overlay.
+
+    Uses two separate <layer> elements (P-Res-B) so the OSM tile
+    pyramid (Mercator) and the IWRAP WMS tile pyramid (Equirectangular)
+    are kept in their own MergedLayerDecorator merge cycles. The WMS
+    layer's <opacity value="0.5"/> attribute drives the Path X per-
+    texture opacity API (marble-qt6 fork commits 0a68e598a / 9690b54c4
+    / 969afb885) — IWRAP's runtime can override via setOpacity().
+
+    The iwrap_wms_data downloadUrl is a placeholder (.invalid TLD,
+    RFC 2606 reserved). The actual URL is generated per-tile at
+    runtime by IwrapWmsServerLayout::downloadUrl, driven by the
+    user-configured WmsSettings broadcast via
+    MarbleMapWidget::setWmsSetting.
+-->
+<dgml xmlns="http://edu.kde.org/marble/dgml/2.0">
+    <document>
+        <head>
+            <license short="© OpenStreetMap contributors">Source: © OpenStreetMap contributors, License: Creative Commons Attribution-ShareAlike 2.0 (CC BY-SA)</license>
+            <name>OSM + IWRAP WMS</name>
+            <target>earth</target>
+            <theme>iwrap_osm_wms</theme>
+            <icon pixmap="iwrap_osm_wms-preview.png"/>
+            <visible>true</visible>
+            <description><![CDATA[<p>OpenStreetMap basemap with the IWRAP WMS layer overlaid at 50% opacity. The WMS server is user-configured at runtime via IWRAP's WMS Layers dialog; only the opacity default is fixed in the theme.</p>]]></description>
+            <zoom>
+                <minimum>   900  </minimum>
+                <maximum>  3500  </maximum>
+                <discrete> true </discrete>
+            </zoom>
+        </head>
+        <map bgcolor="#000000">
+            <canvas/>
+            <target/>
+            <!-- Layer 1: OSM base (paints first, bottom). Mercator
+                 tile pyramid. Lifted verbatim from stock openstreetmap.dgml. -->
+            <layer name="openstreetmap" backend="texture">
+                <texture name="mapnik_data" expire="604800">
+                    <sourcedir format="PNG"> earth/openstreetmap </sourcedir>
+                    <tileSize width="256" height="256"/>
+                    <storageLayout levelZeroColumns="1" levelZeroRows="1" maximumTileLevel="19" mode="OpenStreetMap"/>
+                    <projection name="Mercator"/>
+                    <downloadUrl protocol="https" host="tile.openstreetmap.org" path="/"/>
+                    <downloadPolicy usage="Browse" maximumConnections="20"/>
+                    <downloadPolicy usage="Bulk" maximumConnections="2"/>
+                </texture>
+            </layer>
+            <!-- Layer 2: IWRAP WMS overlay (paints second, on top).
+                 Equirectangular tile pyramid. Lifted from iwrap_wms.dgml
+                 with three Architecture-C / Path-X additions:
+                   - <blending name="AlphaBlending"/> so the layer composes
+                     alpha-aware over the OSM base below.
+                   - <opacity value="0.5"/> sets the default per-texture
+                     opacity (Path X DGML attribute). Runtime
+                     IwrapWmsServerLayout::setWmsSetting overrides via
+                     GeoSceneTileDataset::setOpacity per the X3 wiring.
+                   - downloadUrl host = placeholder.example.invalid
+                     (RFC 2606 reserved .invalid TLD). The actual WMS URL
+                     is generated per-tile at runtime by
+                     IwrapWmsServerLayout::downloadUrl from
+                     WmsSettings::m_urlGetMap / m_host, falling back to
+                     this placeholder only if neither override is set
+                     (which would itself be a misconfiguration). -->
+            <layer name="iwrap_wms" backend="texture">
+                <texture name="iwrap_wms_data" expire="604800">
+                    <sourcedir format="PNG"> earth/iwrap_wms </sourcedir>
+                    <tileSize width="256" height="256"/>
+                    <storageLayout levelZeroColumns="1" levelZeroRows="1" maximumTileLevel="19" mode="Custom"/>
+                    <projection name="Mercator"/>
+                    <downloadUrl protocol="http" host="placeholder.example.invalid" path="/"/>
+                    <blending name="AlphaBlending"/>
+                    <opacity value="1.0"/>
+                </texture>
+            </layer>
+            <!-- Layer 3: standardplaces (paints last). Lifted from stock
+                 openstreetmap.dgml using .cache files (KML-compiled, faster
+                 to load than the raw .kml form used in iwrap_wms.dgml). -->
+            <layer name="standardplaces" backend="geodata">
+                <geodata name="cityplacemarks">
+                    <sourcefile>cityplacemarks.cache</sourcefile>
+                </geodata>
+                <geodata name="baseplacemarks">
+                    <sourcefile>baseplacemarks.cache</sourcefile>
+                </geodata>
+                <geodata name="elevplacemarks">
+                    <sourcefile>elevplacemarks.cache</sourcefile>
+                </geodata>
+                <geodata name="otherplacemarks">
+                    <sourcefile>otherplacemarks.cache</sourcefile>
+                </geodata>
+                <geodata name="boundaryplacemarks">
+                    <sourcefile>boundaryplacemarks.cache</sourcefile>
+                </geodata>
+            </layer>
+        </map>
+        <settings>
+            <property name="coordinate-grid">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="compass">
+                <value>true</value>
+                <available>true</available>
+            </property>
+            <property name="scalebar">
+                <value>true</value>
+                <available>true</available>
+            </property>
+        </settings>
+        <legend>
+        </legend>
+    </document>
+</dgml>
