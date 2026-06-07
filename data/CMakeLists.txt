@@ -139,6 +139,14 @@ install (DIRECTORY maps/earth/iwrap_esri_world_imagery_wms
 DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
 )
 
+install (DIRECTORY maps/earth/tianditu-en
+DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
+)
+
+install (DIRECTORY maps/earth/tianditu-img
+DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
+)
+
 install (FILES
 maps/earth/humanitarian/0/0/0.png
 DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth/humanitarian/0/0)
