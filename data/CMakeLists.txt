@@ -147,6 +147,18 @@ install (DIRECTORY maps/earth/tianditu-img
 DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
 )
 
+install (DIRECTORY maps/earth/tianditu
+DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
+)
+
+install (DIRECTORY maps/earth/tianditu-labels-en
+DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
+)
+
+install (DIRECTORY maps/earth/tianditu-img-labels
+DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth
+)
+
 install (FILES
 maps/earth/humanitarian/0/0/0.png
 DESTINATION ${MARBLE_DATA_INSTALL_PATH}/maps/earth/humanitarian/0/0)
