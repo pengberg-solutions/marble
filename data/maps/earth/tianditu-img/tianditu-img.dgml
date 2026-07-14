@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dgml SYSTEM "http://edu.kde.org/marble/dgml/2.0/dgml.dtd">
+<dgml xmlns="http://edu.kde.org/marble/dgml/2.0">
+  <document>
+
+    <head>
+      <license short="© 天地图 / National Platform for Common Geospatial Information Services">
+        Tiles © Tianditu (tianditu.gov.cn). Usage requires a registered developer key (tk).
+      </license>
+      <name>Tianditu Imagery (China)</name>
+      <target>earth</target>
+      <theme>tianditu-img</theme>
+      <icon pixmap="tianditu-img-preview.png"/>
+      <visible>true</visible>
+      <description><![CDATA[
+        Tianditu satellite imagery (img) + image annotation (cia). Web Mercator,
+        CGCS2000 ≈ WGS-84 — aligns with AIS/ENC without GCJ-02 offset.
+        For English labels on imagery, change the annotation texture's path to
+        /eia_w and LAYER=eia. Replace YOUR_TIANDITU_KEY with your registered tk.
+      ]]></description>
+      <zoom>
+        <minimum>900</minimum>
+        <maximum>3500</maximum>
+        <discrete>false</discrete>
+      </zoom>
+    </head>
+
+    <map bgcolor="#000000">
+      <canvas/>
+      <target/>
+
+      <layer name="tianditu-img" backend="texture">
+
+        <!-- Satellite imagery base -->
+        <texture name="tianditu_img" expire="31536000">
+          <sourcedir format="JPG"> earth/tianditu-img </sourcedir>
+          <tileSize width="256" height="256"/>
+          <!-- Clamp to 17: Tianditu img_w native max is 18 but level-18 coverage is patchy,
+               so the deepest zoom shows a seam where 18 exists on one side only. 17 is uniform. -->
+          <storageLayout levelZeroColumns="1" levelZeroRows="1"
+                         maximumTileLevel="17" mode="Custom"/>
+          <projection name="Mercator"/>
+          <downloadUrl protocol="https" host="t0.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t1.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t2.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t3.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t4.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t5.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t6.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t7.tianditu.gov.cn" path="/img_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=img&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadPolicy usage="Browse" maximumConnections="8"/>
+          <downloadPolicy usage="Bulk" maximumConnections="2"/>
+        </texture>
+
+        <!-- Image annotation overlay (cia, Chinese). For English: /eia_w + LAYER=eia. -->
+        <texture name="tianditu_cia" expire="31536000">
+          <sourcedir format="PNG"> earth/tianditu-img-labels </sourcedir>
+          <tileSize width="256" height="256"/>
+          <storageLayout levelZeroColumns="1" levelZeroRows="1"
+                         maximumTileLevel="18" mode="Custom"/>
+          <projection name="Mercator"/>
+          <blending name="AlphaBlending"/>
+          <downloadUrl protocol="https" host="t0.tianditu.gov.cn" path="/cia_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=cia&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t1.tianditu.gov.cn" path="/cia_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=cia&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t2.tianditu.gov.cn" path="/cia_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=cia&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadUrl protocol="https" host="t3.tianditu.gov.cn" path="/cia_w/wmts"
+            query="SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=cia&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILEMATRIX={zoomLevel}&amp;TILEROW={y}&amp;TILECOL={x}&amp;tk=YOUR_TIANDITU_KEY"/>
+          <downloadPolicy usage="Browse" maximumConnections="8"/>
+          <downloadPolicy usage="Bulk" maximumConnections="2"/>
+        </texture>
+
+      </layer>
+    </map>
+
+    <settings>
+      <property name="coordinate-grid">
+        <value>true</value>
+        <available>true</available>
+      </property>
+      <property name="overviewmap">
+        <value>true</value>
+        <available>true</available>
+      </property>
+      <property name="scalebar">
+        <value>true</value>
+        <available>true</available>
+      </property>
+    </settings>
+
+    <legend>
+      <section name="tianditu-img" checkable="false" spacing="12">
+        <heading>Tianditu Imagery</heading>
+      </section>
+    </legend>
+
+  </document>
+</dgml>
